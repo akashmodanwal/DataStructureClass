@@ -241,6 +241,7 @@ struct Array *Merge(struct Array *arr1,struct Array *arr2){
 //Prints Multiple missing elements in a sequence if array IS SORTED and has only +ve elements
 
 void Missing_elements(struct Array arr){
+
     int diff = arr.A[0];
     for(int i=0;i<arr.length;i++){
         if(arr.A[i] - i != diff){
@@ -316,6 +317,71 @@ void Duplicate_using_hash(struct Array arr){
     
 }
 
+struct Array *Union(struct Array a,struct Array b){
+    struct Array *c = new struct Array;
+    int i=0,j=0,k=0;
+
+    while(i<a.length && j<b.length){
+        if(a.A[i] < b.A[j])
+            c->A[k++] = a.A[i++];
+        else if(a.A[i] > b.A[j])
+            c->A[k++] = b.A[j++];
+        else{
+            c->A[k++]=a.A[i++];
+            j++;
+        }
+    }
+    while(i<a.length)
+        c->A[k++] = a.A[i++];
+    while(j<b.length)
+        c->A[k++] = b.A[j++];
+    
+    c->length = k;
+    return c;
+}
+
+struct Array *Intersection(struct Array a,struct Array b){
+    struct Array *c = new struct Array;
+    int i=0,j=0,k=0;
+    while(i<a.length && j<b.length){
+        if(a.A[i] < b.A[j])
+            i++;
+        else if(a.A[i]>b.A[j])
+            j++;
+        else{
+            c->A[k++] = a.A[i++];
+            j++;
+        }
+    }
+    c->length = k;
+    return c;
+}
+
+struct Array *Difference(struct Array a,struct Array b){
+    struct Array *c =new struct Array;
+    int i=0,j=0,k=0;
+    while(i<a.length && j<b.length){
+        if(a.A[i] < b.A[j])
+            c->A[k++] = a.A[i++];
+        else if(a.A[i] > b.A[j])
+            j++;
+        else{
+            i++;
+            j++;
+        }
+    }
+    while(i<a.length)
+        c->A[k++] = a.A[i++];
+    c->length = k;
+    return c;
+}
+void isMember(struct Array arr,int x){
+    int a = BinarySearch(arr,x);
+    if(a==-1)
+        cout<<x<<" is Not a Member of Array"<<endl;
+    else
+        printf("Yes! %d is member of the Array\n",x);
+}
 
 int main(){
     struct Array arr = {{2,3,4,5,6},10,5};
@@ -325,18 +391,18 @@ int main(){
     cout<<Delete(&arr,2)<<endl;
     insert(&arr,2,3);
     display(arr);
-   // cout<<LinearSearch(arr,5)<<endl;
-    //cout<<BinarySearch(arr,6)<<endl;
-    //cout<<recursiveBinarySearch(arr,0,arr.length-1,7)<<endl;
-    //cout<<get(arr,4)<<endl;
+    cout<<LinearSearch(arr,5)<<endl;
+    cout<<BinarySearch(arr,6)<<endl;
+    cout<<recursiveBinarySearch(arr,0,arr.length-1,7)<<endl;
+    cout<<get(arr,4)<<endl;
     display(arr);
     cout<<Max(arr)<<endl;
     cout<<Min(arr)<<endl;
     cout<<Sum(arr)<<endl;
     cout<<Avg(arr)<<endl;
-    //ReverseUsingAuxilary(&arr);
+    ReverseUsingAuxilary(&arr);
     display(arr);
-    //Reverse(&arr);
+    Reverse(&arr);
     Lshift(&arr);
     display(arr);
     Rshift(&arr);
@@ -344,7 +410,7 @@ int main(){
     RotateRight(&arr);
     display(arr);
     RotateLeft(&arr);
-    //set(&arr,3,4);
+    Set(&arr,3,4);
     Rearrange(&arr);
     display(arr);
     cout<<isSorted(arr)<<endl;
@@ -362,5 +428,15 @@ int main(){
     min_max_single_scan(arr);
     pair_with_sum(arr,13);
     Duplicate_using_hash(*arr2);
+    struct Array *uni = Union(arr,arr1);
+    display(arr);
+    display(arr1);
+    struct Array *a = Intersection(arr,arr1);
+    struct Array *b = Difference(arr,arr1);
+    display(*uni);
+    display(*a);
+    display(*b);
+    isMember(arr,14);
+    isMember(arr,10);
     return 0;
 }

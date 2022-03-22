@@ -69,7 +69,7 @@ class MinHeap{
         }
         
         void deleteAtIndex(int i){
-            arr[i] = INT_MAX;
+            arr[i] = INT_MIN;
             bubbleUp(i);
             deleteRoot();
         }
